@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import TimeTrackingForm from './TimeTrackingForm'
+import TimeLog from './TimeLog'
 
 class App extends Component {
   render() {
     return ( 
       <div className="container">
-        <TimeTrackingForm />
+        <TimeLog />
       </div>
     )
   }
