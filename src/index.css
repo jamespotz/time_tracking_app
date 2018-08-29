@@ -6222,6 +6222,10 @@ table {
 
 /* Your custom CSS here */
 
+.nav-link-items>a {
+  text-decoration: none;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

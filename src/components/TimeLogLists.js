@@ -52,6 +52,11 @@ export default class TimeLogLists extends PureComponent {
   render() {
     const data = this.groupByDate()
     const timeLogsByDate = Object.keys(data).map(key => {
+      const totalTimeMs = data[key].map(t => {
+        const duration = moment.duration(moment(t.time_out).diff(moment(t.time_in)))
+        return isNaN(duration) ? 0 : duration.asMilliseconds()
+      }).reduce((sum, duration) => { return sum += Number(duration) }, 0)
+
       const timeLogs = data[key].map(timeLog => {
         return <TimeLogListItem 
           description={timeLog.description}
@@ -61,19 +66,18 @@ export default class TimeLogLists extends PureComponent {
           key={timeLog._id}
         />
       })
-      return <div className="px-1 my-4">
-        <h3 className="text-2xl pl-3 hover:text-grey-dark">{this.formatDate(key)}</h3>
+
+      return <div className="px-0 my-4" key={key}>
+        <div className="flex flex-row justify-between px-4">
+          <h3 className="text-2xl hover:text-grey">
+            {this.formatDate(key)}
+          </h3>
+          <span className="hover:text-teal">
+            Total: {moment.utc(totalTimeMs).format('HH:mm:ss')}
+          </span>
+        </div>
         { timeLogs }
       </div>
-    })
-    const timeLogs = this.props.timeLogs.map(timeLog => {
-      return <TimeLogListItem 
-        description={timeLog.description}
-        time_in={timeLog.time_in}
-        time_out={timeLog.time_out}
-        _id={timeLog._id}
-        key={timeLog._id}
-      />
     })
 
     return (

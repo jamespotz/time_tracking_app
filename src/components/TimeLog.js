@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import TimeLogForm from './TimeLogForm'
 import axios from 'axios'
 import moment from 'moment'
-import TimeLogListItem from './TimeLogListItem';
 import TimeLogLists from './TimeLogLists';
+import Button from './Button'
 
 class TimeLog extends PureComponent {
   constructor() {
@@ -16,7 +16,9 @@ class TimeLog extends PureComponent {
       _id: null,
       time: moment().format('hh:mm a'),
       btn_name: 'Clock In',
-      btn_class_names: 'bg-teal hover:bg-teal-dark text-white font-bold py-3 px-4 rounded-full text-xl'
+      btn_class_names: 'bg-teal hover:bg-teal-dark text-white font-bold py-3 px-4 rounded-full text-xl',
+      page: 1,
+      limit: 10
     }
 
     this.timeInterval = null
@@ -25,12 +27,14 @@ class TimeLog extends PureComponent {
 
   componentDidMount() {
     sessionStorage.setItem('AUTH_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsMjNAdGVzdC5jb20iLCJ1c2VySWQiOiI1YjdmYzU3ZWE3Njc2ZDQyYThlNDI5MTUiLCJpYXQiOjE1MzU0MjMwOTQsImV4cCI6MTUzNTQ1OTA5NH0.brLZ5yr4nDBbbPgcg6JXlSE5VVmBI8EheMh2bgvbkIQ')
+    
+    this.loadTimelogs()
     if (!this.timeInterval) {
       this.timeInterval = setInterval(this.currentTime, 1000)
     }
 
     if (!this.pollInterval) {
-      this.pollInterval = setInterval(this.loadTimelogs, 2000)
+      this.pollInterval = setInterval(this.loadOneTimelog, 2000)
     }
   }
 
@@ -60,11 +64,12 @@ class TimeLog extends PureComponent {
 
     axios
       .post(
-        'http://localhost:3001/api/time-log', 
+        '/api/time-log', 
         data, 
         axiosConfig)
       .then(response => {
         self.changeState(response.data._id)
+        self.loadTimelogs()
       }).catch(err => {
         console.log(err)
       })
@@ -89,11 +94,12 @@ class TimeLog extends PureComponent {
 
     axios
       .patch(
-        `http://localhost:3001/api/time-log/${this.state._id}`, 
+        `/api/time-log/${this.state._id}`, 
         data, 
         axiosConfig)
       .then(response => {
         self.clearState()
+        self.loadTimelogs()
       }).catch(err => {
         console.log(err)
       })
@@ -117,7 +123,8 @@ class TimeLog extends PureComponent {
   clearState = () => {
     const newState = { ...this.state }
     newState._id = null
-    newState.time_out = null
+    newState.description = ''
+    newState.time_out = ''
     newState.time_in = moment().format('x')
     newState.btn_name = 'Clock in'
     newState.btn_class_names = 'bg-teal hover:bg-teal-light text-white font-bold py-3 px-4 rounded-full text-xl'
@@ -145,8 +152,14 @@ class TimeLog extends PureComponent {
     this.setState(newState)
   }
 
-  loadTimelogs = () => {
+  loadOneTimelog = () => {
+    this.loadTimelogs(1)
+  }
+
+  loadTimelogs = (optionalLimit) => {
     const self = this
+    const page = self.state.page || 1
+    const limit = optionalLimit || this.state.limit
     let axiosConfig = {
       headers: {
           "Content-Type": "application/json;charset=UTF-8",
@@ -155,15 +168,48 @@ class TimeLog extends PureComponent {
       }
     }
 
-    axios.get('http://localhost:3001/api/time-logs', axiosConfig)
+    axios.get(`/api/time-logs?page=0&limit=${limit}`, axiosConfig)
       .then(results => {
         const newState = { ...self.state }
-        newState.timeLogs = results.data.timeLogs
+        newState.timeLogs = [...newState.timeLogs, ...results.data.timeLogs]
+        newState.timeLogs = self.filterUniq(newState.timeLogs)
         self.setState(newState)
       })
       .catch(err => {
         console.log(err)
       })
+  }
+
+  loadMoreTimelogs = () => {
+    const self = this
+    const page = self.state.page || 1
+
+    let axiosConfig = {
+      headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*",
+          "Authorization": `Bearer ${sessionStorage.getItem('AUTH_TOKEN')}`
+      }
+    }
+
+    axios.get(`/api/time-logs?page=${page}&limit=${this.state.limit}`, axiosConfig)
+      .then(results => {
+        const newState = { ...self.state }
+        newState.timeLogs = [...newState.timeLogs, ...results.data.timeLogs]
+        newState.timeLogs = self.filterUniq(newState.timeLogs)
+        newState.page += 1
+        self.setState(newState)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  filterUniq = (objList) => {
+    const ids = objList.map(o => o._id)
+    return objList.filter((item, pos, arr) => {
+      return ids.indexOf(item._id) == pos
+    })
   }
 
   render() {
@@ -181,6 +227,9 @@ class TimeLog extends PureComponent {
         />
 
         <TimeLogLists timeLogs={this.state.timeLogs} />
+        <div className="flex flex-row justify-center">
+        <Button name="Load More" classNames="bg-transparent text-grey font-semibold hover:text-black py-2 px-4 font-2xl"  handleOnClick={ this.loadMoreTimelogs }/>
+        </div>
       </div>
     )
   }

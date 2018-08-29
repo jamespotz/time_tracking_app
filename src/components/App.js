@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import TimeLog from './TimeLog'
+import SideBar from './SideBar'
+import Main from './Main';
 
 class App extends Component {
   render() {
     return ( 
-      <div className="container">
-        <TimeLog />
+      <div className="container flex h-screen">
+        <SideBar />
+        <Main />
       </div>
     )
   }

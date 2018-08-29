@@ -1,3 +1,7 @@
 @tailwind preflight;
 @tailwind utilities;
 /* Your custom CSS here */
+
+.nav-link-items>a {
+  text-decoration: none;
+}

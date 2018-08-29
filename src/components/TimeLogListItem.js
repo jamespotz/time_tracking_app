@@ -48,7 +48,7 @@ export default class TimeLogListItem extends PureComponent {
       if (willDelete) {    
         axios
           .delete(
-            `http://localhost:3001/api/time-log/${this.props._id}`,
+            `/api/time-log/${this.props._id}`,
             axiosConfig)
           .then(response => {
             swal({
