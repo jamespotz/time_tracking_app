@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import SubmitButton from './SubmitButton'
+import SubmitButton from '../FormFields/SubmitButton'
 
 const TimeLogForm = (props) => (
   <form className="shadow py-4 px-2" onSubmit={props.submitForm}>
@@ -14,14 +14,14 @@ const TimeLogForm = (props) => (
       value={props.time_out} 
     />
     <div className="flex justify-between">
-      <div className="w-5/6">
+      <div className="w-4/5">
         <input 
         type="text" 
         name="description" 
         placeholder="What are you working on?" 
         className="appearance-none block w-full bg-white text-grey-darker py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:text-teal text-2xl" 
         autoComplete="off"
-        vale={props.description} 
+        value={props.description} 
         onChange={props.handleChange}/>
       </div>
       <span className="text-grey-dark text-2xl mt-3">{props.currentTime}</span>

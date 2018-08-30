@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types'
 import TimeLogListItem from './TimeLogListItem'
 import moment from 'moment'
+import './TimeLogLists.css'
 
 export default class TimeLogLists extends PureComponent {
   constructor() {
     super()
-    this.state = {
-      timeLogsByDate: []
-    }
   }
+
   static propTypes = {
     timeLogs: PropTypes.arrayOf(PropTypes.shape({
       description: PropTypes.string,
@@ -48,7 +48,6 @@ export default class TimeLogLists extends PureComponent {
     return date.format('MMMM DD')
   }
 
-
   render() {
     const data = this.groupByDate()
     const timeLogsByDate = Object.keys(data).map(key => {
@@ -57,14 +56,22 @@ export default class TimeLogLists extends PureComponent {
         return isNaN(duration) ? 0 : duration.asMilliseconds()
       }).reduce((sum, duration) => { return sum += Number(duration) }, 0)
 
-      const timeLogs = data[key].map(timeLog => {
-        return <TimeLogListItem 
-          description={timeLog.description}
-          time_in={timeLog.time_in}
-          time_out={timeLog.time_out}
-          _id={timeLog._id}
-          key={timeLog._id}
-        />
+      const timeLogs = data[key].sort((a, b) => a.createdAt-b.createdAt).map(timeLog => {
+        return (
+          <CSSTransition
+            key={timeLog._id}
+            classNames="fade"
+            timeout={{ enter: 500, exit: 300 }}
+          >
+            <TimeLogListItem 
+              description={timeLog.description}
+              time_in={timeLog.time_in}
+              time_out={timeLog.time_out}
+              _id={timeLog._id}
+              key={timeLog._id}
+            />
+          </CSSTransition>
+        )
       })
 
       return <div className="px-0 my-4" key={key}>
@@ -76,7 +83,9 @@ export default class TimeLogLists extends PureComponent {
             Total: {moment.utc(totalTimeMs).format('HH:mm:ss')}
           </span>
         </div>
-        { timeLogs }
+        <TransitionGroup>
+          { timeLogs }
+        </TransitionGroup>        
       </div>
     })
 

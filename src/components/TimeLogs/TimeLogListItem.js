@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Button from './Button'
+import Button from '../Button'
 import axios from 'axios'
 import swal from 'sweetalert'
 

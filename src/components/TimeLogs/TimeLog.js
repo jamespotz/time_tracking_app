@@ -3,7 +3,7 @@ import TimeLogForm from './TimeLogForm'
 import axios from 'axios'
 import moment from 'moment'
 import TimeLogLists from './TimeLogLists';
-import Button from './Button'
+import Button from '../Button'
 
 class TimeLog extends PureComponent {
   constructor() {
@@ -26,15 +26,12 @@ class TimeLog extends PureComponent {
   }
 
   componentDidMount() {
-    sessionStorage.setItem('AUTH_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsMjNAdGVzdC5jb20iLCJ1c2VySWQiOiI1YjdmYzU3ZWE3Njc2ZDQyYThlNDI5MTUiLCJpYXQiOjE1MzU0MjMwOTQsImV4cCI6MTUzNTQ1OTA5NH0.brLZ5yr4nDBbbPgcg6JXlSE5VVmBI8EheMh2bgvbkIQ')
+    sessionStorage.setItem('AUTH_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsMjNAdGVzdC5jb20iLCJ1c2VySWQiOiI1YjdmYzU3ZWE3Njc2ZDQyYThlNDI5MTUiLCJpYXQiOjE1MzU1MTAxMTAsImV4cCI6MTUzNTU5NjUxMH0.xuhS3r2H-mNGUoTJiPwkxRduUUFJolMds_uetBS5wek')
     
     this.loadTimelogs()
+    
     if (!this.timeInterval) {
       this.timeInterval = setInterval(this.currentTime, 1000)
-    }
-
-    if (!this.pollInterval) {
-      this.pollInterval = setInterval(this.loadOneTimelog, 2000)
     }
   }
 
@@ -69,7 +66,6 @@ class TimeLog extends PureComponent {
         axiosConfig)
       .then(response => {
         self.changeState(response.data._id)
-        self.loadTimelogs()
       }).catch(err => {
         console.log(err)
       })
@@ -99,7 +95,9 @@ class TimeLog extends PureComponent {
         axiosConfig)
       .then(response => {
         self.clearState()
-        self.loadTimelogs()
+        const newState = { ...self.state }
+        newState.timeLogs = [response.data.timeLog, ...newState.timeLogs]
+        self.setState(newState)
       }).catch(err => {
         console.log(err)
       })
@@ -152,14 +150,10 @@ class TimeLog extends PureComponent {
     this.setState(newState)
   }
 
-  loadOneTimelog = () => {
-    this.loadTimelogs(1)
-  }
-
-  loadTimelogs = (optionalLimit) => {
+  loadTimelogs = () => {
     const self = this
     const page = self.state.page || 1
-    const limit = optionalLimit || this.state.limit
+    const limit = this.state.limit || 10
     let axiosConfig = {
       headers: {
           "Content-Type": "application/json;charset=UTF-8",

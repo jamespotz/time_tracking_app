@@ -47,15 +47,16 @@ exports.update = (req, res, next) => {
   }
   updateOps['ipAddress'] = ipAddress
 
-  TimeLog.updateOne({
+  TimeLog.findOneAndUpdate({
       _id: id
     }, {
       $set: updateOps
-    })
+    }, { new: true })
     .exec()
     .then(result => {
       res.status(200).json({
-        message: 'TimeLog updated'
+        message: 'TimeLog updated',
+        timeLog: result
       })
     })
     .catch(err => {

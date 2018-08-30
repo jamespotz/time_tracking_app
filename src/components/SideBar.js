@@ -18,6 +18,9 @@ export default class SideBar extends PureComponent {
             <li className="nav-Navlink-items">
               <NavLink exact to="/sign-out" className={defaultClass}  activeClassName="bg-grey-darkest">Sign Out</NavLink>
             </li>
+            <li className="nav-link-items">
+              <NavLink exact to="/sign-in" className={defaultClass} activeClassName="bg-grey-darkest">Sign In</NavLink>
+            </li>
           </ul>
         </nav>
       </div>

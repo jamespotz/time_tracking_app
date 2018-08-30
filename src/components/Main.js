@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import TimeLog from './TimeLog'
+import TimeLog from './TimeLogs/TimeLog'
 import Reports from './Reports'
+import SignInForm from '../components/Session/SignInForm'
 
 export default class Main extends PureComponent {
   render() {
@@ -10,6 +11,7 @@ export default class Main extends PureComponent {
         <Switch>
           <Route exact path='/' component={TimeLog} />
           <Route exact path='/report' component={Reports} />
+          <Route exact path='/sign-in' component={SignInForm} />
         </Switch>
       </div>
     )
