@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export default class SubmitButton extends PureComponent {
+export default class SubmitButton extends Component {
   static propTypes = {
     classNames: PropTypes.string,
     name: PropTypes.string.isRequired,

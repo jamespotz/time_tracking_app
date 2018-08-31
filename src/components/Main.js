@@ -1,19 +1,32 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import TimeLog from './TimeLogs/TimeLog'
+import TimeLog from './time_logs/TimeLog'
 import Reports from './Reports'
-import SignInForm from '../components/Session/SignInForm'
+import SideBar from './SideBar'
+import { connect } from 'react-redux'
+import { withRouter, Redirect } from 'react-router-dom'
 
-export default class Main extends PureComponent {
+class Main extends Component {
   render() {
-    return (
-      <div className="w-5/6 overflow-auto flex-grow">
-        <Switch>
-          <Route exact path='/' component={TimeLog} />
-          <Route exact path='/report' component={Reports} />
-          <Route exact path='/sign-in' component={SignInForm} />
-        </Switch>
-      </div>
-    )
+    if (this.props.auth.isAuthenticated) {
+      return (
+        <div className="container flex h-screen">
+          <SideBar />
+          <div className="w-5/6 overflow-auto flex-grow">
+            <Route exact path='/time-logs' component={TimeLog} />
+            <Route exact path='/reports' component={Reports} />
+          </div>
+        </div>
+      )
+    } else {
+      return(<Redirect to="/sign-in" />)
+    }
   }
 }
+
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default withRouter(connect(mapStateToProps)(Main))

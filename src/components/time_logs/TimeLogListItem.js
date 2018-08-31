@@ -1,16 +1,17 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Button from '../Button'
-import axios from 'axios'
-import swal from 'sweetalert'
+import Button from '../form_fields/Button'
+import { connect } from 'react-redux'
+import { deleteTimeLog } from '../../actions/timeLogActions'
 
-export default class TimeLogListItem extends PureComponent {
+class TimeLogListItem extends Component {
   static propTypes = {
     description: PropTypes.string.isRequired,
     time_in: PropTypes.string.isRequired,
     time_out: PropTypes.string,
-    _id: PropTypes.string.isRequired
+    _id: PropTypes.string.isRequired,
+    deleteTimeLog: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -29,40 +30,7 @@ export default class TimeLogListItem extends PureComponent {
   }
 
   onDelete = () => {
-    let axiosConfig = {
-      headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          "Access-Control-Allow-Origin": "*",
-          "Authorization": `Bearer ${sessionStorage.getItem('AUTH_TOKEN')}`
-      }
-    }
-
-    swal({
-      title: 'Are you sure?',
-      text: "Once deleted, you will not be able to recover this time log",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true
-    })
-    .then(willDelete => {
-      if (willDelete) {    
-        axios
-          .delete(
-            `/api/time-log/${this.props._id}`,
-            axiosConfig)
-          .then(response => {
-            swal({
-              title: 'Deleted',
-              text: response.data.message,
-              icon: 'success'
-            })
-          }).catch(err => {
-            console.log(err)
-          })
-      } else {
-        swal('Your time log is safe!')
-      }
-    })
+    this.props.deleteTimeLog(this.props._id)
   }
 
   render() {
@@ -89,3 +57,5 @@ export default class TimeLogListItem extends PureComponent {
     )
   }
 }
+
+export default connect(null, { deleteTimeLog })(TimeLogListItem)

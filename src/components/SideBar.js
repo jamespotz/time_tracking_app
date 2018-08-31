@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import SignOut from './Forms/SignOut'
 
-export default class SideBar extends PureComponent {
+export default class SideBar extends Component {
   render() {
     const defaultClass = "text-white py-3 px-4 block bg-black hover:bg-grey-darkest text-center"
 
@@ -10,16 +11,13 @@ export default class SideBar extends PureComponent {
         <nav>
           <ul className="list-reset flex flex-col mt-10">
             <li className="nav-link-items">
-              <NavLink exact to="/" className={defaultClass} activeClassName="bg-grey-darkest">Time Log</NavLink>
-            </li>
-            <li className="nav-Navlink-items">
-              <NavLink exact to="/report" className={defaultClass} activeClassName="bg-grey-darkest">Report</NavLink>
-            </li>
-            <li className="nav-Navlink-items">
-              <NavLink exact to="/sign-out" className={defaultClass}  activeClassName="bg-grey-darkest">Sign Out</NavLink>
+              <NavLink exact to="/time-logs" className={defaultClass} activeClassName="bg-grey-darkest">Time Log</NavLink>
             </li>
             <li className="nav-link-items">
-              <NavLink exact to="/sign-in" className={defaultClass} activeClassName="bg-grey-darkest">Sign In</NavLink>
+              <NavLink exact to="/reports" className={defaultClass} activeClassName="bg-grey-darkest">Report</NavLink>
+            </li>
+            <li className="nav-Navlink-items">
+              <SignOut className={defaultClass} />
             </li>
           </ul>
         </nav>

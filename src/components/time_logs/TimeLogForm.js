@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import SubmitButton from '../FormFields/SubmitButton'
+import SubmitButton from '../form_fields/SubmitButton'
 
 const TimeLogForm = (props) => (
   <form className="shadow py-4 px-2" onSubmit={props.submitForm}>

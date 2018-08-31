@@ -2,6 +2,7 @@ import User from '../models/user'
 import ValidateUserParams from '../operations/validate_user_params'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import generate_token from '../operations/generate_token'
 
 exports.signUpUser = (req, res, next) => {
   const {
@@ -37,7 +38,8 @@ exports.signUpUser = (req, res, next) => {
 
               user.save().then(result => {
                 res.status(201).json({
-                  message: "User created"
+                  message: "User created",
+                  token: generate_token({email: user.email, userId: user._id})
                 });
               }).catch(err => {
                 console.log(err);
@@ -83,15 +85,7 @@ exports.signInUser = (req, res, next) => {
       user.verifyPassword(password)
         .then(result => {
           if (result) {
-            const token = jwt.sign({
-                email: user.email,
-                userId: user._id
-              },
-              process.env.JWT_KEY, {
-                expiresIn: '24h'
-              }
-            )
-
+            const token = generate_token({email: user.email, userId: user._id})
             return res.status(200).json({
               message: 'Authentication successful',
               token: token

@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-import SideBar from './SideBar'
 import Main from './Main';
+import SignInForm from './forms/SignInForm';
+import { Route } from 'react-router-dom'
+import SignUpForm from './forms/SignUpForm';
 
 class App extends Component {
   render() {
-    return ( 
-      <div className="container flex h-screen">
-        <SideBar />
+    return (
+      <div>
+        <Route exact path='/sign-in' component={SignInForm} />
+        <Route exact path='/sign-up' component={SignUpForm} />
         <Main />
       </div>
     )

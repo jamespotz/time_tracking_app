@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types'
 import TimeLogListItem from './TimeLogListItem'
 import moment from 'moment'
 import './TimeLogLists.css'
 
-export default class TimeLogLists extends PureComponent {
+export default class TimeLogLists extends Component {
   constructor() {
     super()
   }
