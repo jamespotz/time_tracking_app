@@ -6230,6 +6230,10 @@ table {
   outline: 0 !important;
 }
 
+ul {
+  padding: 0;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

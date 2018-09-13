@@ -44,9 +44,12 @@ class TimeLog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { newTimeLog, newTimeLogId, deletedTimeLogId } = nextProps
+    const { newTimeLog, newTimeLogId } = nextProps
     if (newTimeLog && newTimeLog.hasOwnProperty('_id')) {
-      this.props.timeLogs.unshift(newTimeLog)
+      const found = this.props.timeLogs.find(i => i._id === newTimeLog._id)
+      if (!found) {
+        this.props.timeLogs.unshift(newTimeLog)
+      }
     }
 
     if (newTimeLogId && !newTimeLog.hasOwnProperty('_id')) {

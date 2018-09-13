@@ -1,4 +1,4 @@
-import { FETCH_TIME_LOGS_SUCCESS, FETCH_TIME_LOGS_FAILED, CREATE_TIME_LOG_SUCCESS, CREATE_TIME_LOG_FAILED, UPDATE_TIME_LOG_SUCCESS, UPDATE_TIME_LOG_FAILED, DELETE_TIME_LOG_SUCCESS, DELETE_TIME_LOG_FAILED, FETCH_MORE_TIME_LOGS_SUCCESS, FETCH_MORE_TIME_LOGS_FAILED, UPDATE_TIME_LOG_VALUE } from '../actions/types';
+import { FETCH_TIME_LOGS_SUCCESS, FETCH_TIME_LOGS_FAILED, CREATE_TIME_LOG_SUCCESS, CREATE_TIME_LOG_FAILED, UPDATE_TIME_LOG_SUCCESS, UPDATE_TIME_LOG_FAILED, DELETE_TIME_LOG_SUCCESS, DELETE_TIME_LOG_FAILED, FETCH_MORE_TIME_LOGS_SUCCESS, FETCH_MORE_TIME_LOGS_FAILED, UPDATE_TIME_LOG_VALUE, UPDATE_TIME_LOG_VALUE_SUCCESS } from '../actions/types';
 
 const initialState = {
   items: [],
@@ -79,6 +79,11 @@ export default function(state = initialState, action) {
         errorMessage: action.payload
       }
     case UPDATE_TIME_LOG_VALUE:
+      return {
+        ...state,
+        items: updateItems(state.items, action.payload)
+      }
+      case UPDATE_TIME_LOG_VALUE_SUCCESS:
       return {
         ...state,
         items: updateItems(state.items, action.payload)

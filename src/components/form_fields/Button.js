@@ -12,7 +12,7 @@ export default class Button extends Component {
   }
 
   render() {
-    const { classNames, name, handleOnClick } = this.props
+    const { classNames, handleOnClick } = this.props
     return (
       <button className={classNames} onClick={handleOnClick}>
         { this.props.children }

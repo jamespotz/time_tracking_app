@@ -48,12 +48,16 @@ export default class TimeLogLists extends Component {
     return date.format('MMMM DD')
   }
 
+  getDuration = (time_in, time_out) => {
+    const duration = moment.duration(moment(time_out).diff(moment(time_in)))
+    return isNaN(duration) ? 0 : duration.asMilliseconds()
+  }
+
   render() {
     const data = this.groupByDate()
     const timeLogsByDate = Object.keys(data).map(key => {
       const totalTimeMs = data[key].map(t => {
-        const duration = moment.duration(moment(t.time_out).diff(moment(t.time_in)))
-        return isNaN(duration) ? 0 : duration.asMilliseconds()
+        return this.getDuration(t.time_in, t.time_out)
       }).reduce((sum, duration) => { return sum += Number(duration) }, 0)
 
       const timeLogs = data[key].sort((a, b) => a.createdAt-b.createdAt).map(timeLog => {

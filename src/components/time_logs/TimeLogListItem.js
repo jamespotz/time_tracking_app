@@ -5,6 +5,7 @@ import Button from '../form_fields/Button'
 import { connect } from 'react-redux'
 import { deleteTimeLog, updateTimeLogValue, updateTimeLog } from '../../actions/timeLogActions'
 import SpanInput from '../form_fields/SpanInput';
+import SpanDateTime from '../form_fields/SpanDateTime';
 
 class TimeLogListItem extends Component {
   constructor(props) {
@@ -68,10 +69,24 @@ class TimeLogListItem extends Component {
     })
   }
 
+  handleTimeChange = (name, date) => {
+    this.props.updateTimeLogValue({
+      id: this.props._id,
+      name: name,
+      value: date.toString()
+    })
+  }
+
+  cancelEditing = () => {
+    this.setState({
+      isEditing: false
+    })
+  }
+
   render() {
     const { description, time_in, time_out } = this.props
     return(
-      <div className="flex flex-row flex-no-wrap flex-1 justify-between w-full border border-grey-lighter px-4 py-4 hover:bg-grey-lighter">
+      <div className="flex flex-row flex-no-wrap flex-1 justify-between w-full border border-grey-lighter px-4 py-4 hover:bg-grey-lighter timelog-list--item">
         <div className="w-1/2">
           <small className="text-grey">Description</small><br/>
           <SpanInput 
@@ -83,7 +98,23 @@ class TimeLogListItem extends Component {
         </div>
         <div className="w-1/4">
           <small className="text-grey">Time In - Out</small><br/>
-          {this.formatTime(time_in)} - {this.formatTime(time_out)}
+          <div className="flex flex-row">
+            {
+              <SpanDateTime 
+                startDate={time_in}
+                text={this.formatTime(time_in)}
+                isEditing={this.state.isEditing}
+                onChange={(date) => this.handleTimeChange('time_in', date)}
+              />
+            } <span className="px-1">-</span> {
+              <SpanDateTime 
+                startDate={time_out}
+                text={this.formatTime(time_out)}
+                isEditing={this.state.isEditing} 
+                onChange={(date) => this.handleTimeChange('time_out', date)}
+              />
+            }
+          </div>
         </div>
         <div className="w-1/4">
           <small className="text-grey">Duration</small><br/>
@@ -96,6 +127,11 @@ class TimeLogListItem extends Component {
           >
             { this.state.isEditing ? 'Update' : 'Edit'}
           </Button>
+          {
+            this.state.isEditing ? <Button
+            classNames="bg-transparent text-grey font-semibold hover:text-grey-darker py-1 px-2 text-xs"
+            handleOnClick={this.cancelEditing} >Cancel</Button> : ''
+          }
           <Button
             classNames="bg-transparent text-grey font-semibold hover:text-black py-2 px-4 font-2xl" 
             handleOnClick={ this.onDelete }
