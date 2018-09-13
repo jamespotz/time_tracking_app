@@ -3,9 +3,18 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '../form_fields/Button'
 import { connect } from 'react-redux'
-import { deleteTimeLog } from '../../actions/timeLogActions'
+import { deleteTimeLog, updateTimeLogValue, updateTimeLog } from '../../actions/timeLogActions'
+import SpanInput from '../form_fields/SpanInput';
 
 class TimeLogListItem extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isEditing: false
+    }
+  }
+
   static propTypes = {
     description: PropTypes.string.isRequired,
     time_in: PropTypes.string.isRequired,
@@ -33,13 +42,44 @@ class TimeLogListItem extends Component {
     this.props.deleteTimeLog(this.props._id)
   }
 
+  onEdit = () => {
+    this.setState({
+      isEditing: true
+    })
+  }
+
+  onUpdate = () => {
+    this.props.updateTimeLog(this.props._id, {
+      description: this.props.description,
+      time_in: this.props.time_in,
+      time_out: this.props.time_out
+    })
+    
+    this.setState({
+      isEditing: false
+    })
+  }
+
+  handleEditing = (event) => {
+    this.props.updateTimeLogValue({
+      id: this.props._id,
+      name: event.target.name,
+      value: event.target.value
+    })
+  }
+
   render() {
     const { description, time_in, time_out } = this.props
     return(
       <div className="flex flex-row flex-no-wrap flex-1 justify-between w-full border border-grey-lighter px-4 py-4 hover:bg-grey-lighter">
         <div className="w-1/2">
           <small className="text-grey">Description</small><br/>
-          <span className="text-xl">{description}</span>
+          <SpanInput 
+            value={description} 
+            name="description"
+            isEditing={this.state.isEditing} 
+            onChange={this.handleEditing}
+          />
         </div>
         <div className="w-1/4">
           <small className="text-grey">Time In - Out</small><br/>
@@ -50,12 +90,28 @@ class TimeLogListItem extends Component {
           { this.getDuration(time_in, time_out) }
         </div>
         <div className="flex flex-row">
-          <Button name="Edit" classNames="bg-transparent text-grey font-semibold hover:text-grey-darker py-1 px-2 text-xs" />
-          <Button name="&times;" classNames="bg-transparent text-grey font-semibold hover:text-black py-2 px-4 font-2xl"  handleOnClick={ this.onDelete }/>
+          <Button 
+            classNames="bg-transparent text-grey font-semibold hover:text-grey-darker py-1 px-2 text-xs"
+            handleOnClick={ this.state.isEditing ? this.onUpdate : this.onEdit }
+          >
+            { this.state.isEditing ? 'Update' : 'Edit'}
+          </Button>
+          <Button
+            classNames="bg-transparent text-grey font-semibold hover:text-black py-2 px-4 font-2xl" 
+            handleOnClick={ this.onDelete }
+          >
+            &times;
+          </Button>
         </div>
       </div>
     )
   }
 }
 
-export default connect(null, { deleteTimeLog })(TimeLogListItem)
+const mapDispatchToProps = {
+  deleteTimeLog, 
+  updateTimeLogValue,
+  updateTimeLog
+}
+
+export default connect(null, mapDispatchToProps)(TimeLogListItem)

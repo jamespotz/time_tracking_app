@@ -1,27 +1,40 @@
 import axios from 'axios'
 import swal from 'sweetalert'
 import auth from '../auth/authorization'
-import { FETCH_TIME_LOGS_SUCCESS, FETCH_TIME_LOGS_FAILED, CREATE_TIME_LOG_SUCCESS, CREATE_TIME_LOG_FAILED, UPDATE_TIME_LOG_SUCCESS, UPDATE_TIME_LOG_FAILED, DELETE_TIME_LOG_SUCCESS, DELETE_TIME_LOG_FAILED } from './types';
+import { FETCH_TIME_LOGS_SUCCESS, FETCH_TIME_LOGS_FAILED, CREATE_TIME_LOG_SUCCESS, CREATE_TIME_LOG_FAILED, UPDATE_TIME_LOG_SUCCESS, UPDATE_TIME_LOG_FAILED, DELETE_TIME_LOG_SUCCESS, DELETE_TIME_LOG_FAILED, FETCH_MORE_TIME_LOGS_SUCCESS, FETCH_MORE_TIME_LOGS_FAILED, UPDATE_TIME_LOG_VALUE } from './types';
 
 axios.defaults.headers['Authorization'] = auth.authHeader()
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 export const fetchTimeLogs = (pagination) => dispatch => {
   const { page, limit } = pagination
-  console.log('authHeader', auth.authHeader())
   axios
     .get(`/api/time-logs?page=${page}&limit=${limit}`)
     .then(results => {
-      dispatch({
-        type: FETCH_TIME_LOGS_SUCCESS,
-        payload: results.data.timeLogs
-      })
+      if (page <= 0) {
+        dispatch({
+          type: FETCH_TIME_LOGS_SUCCESS,
+          payload: results.data.timeLogs
+        })
+      } else {
+        dispatch({
+          type: FETCH_MORE_TIME_LOGS_SUCCESS,
+          payload: results.data.timeLogs
+        })
+      }
     })
     .catch(err => {
-      dispatch({
-        type: FETCH_TIME_LOGS_FAILED,
-        payload: err.response.data.message
-      })
+      if (page <= 0) {
+        dispatch({
+          type: FETCH_TIME_LOGS_FAILED,
+          payload: err.response.data.message
+        })
+      } else {
+        dispatch({
+          type: FETCH_MORE_TIME_LOGS_FAILED,
+          payload: err.response.data.message
+        })
+      }
     })
 }
 
@@ -43,7 +56,7 @@ export const createNewTimeLog = (postData) => dispatch => {
 }
 
 
-export const updateNewTimeLog = (id, patchData) => dispatch => {
+export const updateTimeLog = (id, patchData) => dispatch => {
   axios
     .patch(
       `/api/time-log/${id}`, 
@@ -93,5 +106,12 @@ export const deleteTimeLog = (id) => dispatch => {
     } else {
       swal('Your time log is safe!')
     }
+  })
+}
+
+export const updateTimeLogValue = ({id, name, value}) => dispatch => {
+  dispatch({
+    type: UPDATE_TIME_LOG_VALUE,
+    payload: {id: id, name: name, value: value}
   })
 }

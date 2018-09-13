@@ -5,3 +5,7 @@
 .nav-link-items>a {
   text-decoration: none;
 }
+
+*:focus {
+  outline: 0 !important;
+}

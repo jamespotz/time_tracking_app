@@ -6226,6 +6226,10 @@ table {
   text-decoration: none;
 }
 
+*:focus {
+  outline: 0 !important;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

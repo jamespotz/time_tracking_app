@@ -7,6 +7,10 @@ class Auth {
     return `Bearer ${token}`
   }
 
+  static signedIn() {
+    return !!token
+  }
+
   static signOut() {
     sessionStorage.removeItem('user_token')
   }

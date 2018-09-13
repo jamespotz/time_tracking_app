@@ -15,7 +15,6 @@ export const signIn = (credentials, history) => dispatch => {
     })
     sessionStorage.setItem('user_token', response.data.token)
   }).catch(err => {
-    console.log(err)
     dispatch({
       type: LOG_IN_FAILED,
       payload: err.response.data.message

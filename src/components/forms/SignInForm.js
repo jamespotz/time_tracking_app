@@ -64,17 +64,19 @@ class SignInForm extends Component {
               onChange={this.onChange}
             />
 
-            <SubmitButton 
-              name="Sign In" 
+            <SubmitButton  
               classNames="bg-teal hover:bg-teal-dark text-white font-bold py-3 px-4 rounded text-md mt-3 w-full"
               onClick={this.onSave}
-            />
+            >
+              Sign In
+            </SubmitButton>
 
-            <SubmitButton 
-              name="Sign Up" 
+            <SubmitButton  
               classNames="bg-grey-light hover:bg-grey-dark text-white font-bold py-3 px-4 rounded text-md mt-3 w-full"
               onClick={this.signUpPage}
-            />
+            >
+              Sign up
+            </SubmitButton>
           </form>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import TimeLog from './time_logs/TimeLog'
 import Reports from './Reports'
 import SideBar from './SideBar'
@@ -19,7 +19,9 @@ class Main extends Component {
         </div>
       )
     } else {
-      return(<Redirect to="/sign-in" />)
+      return(
+        <Redirect to="/sign-in" />
+      )
     }
   }
 }

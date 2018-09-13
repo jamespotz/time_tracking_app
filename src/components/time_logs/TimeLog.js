@@ -6,6 +6,7 @@ import Button from '../form_fields/Button'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as actions from '../../actions/timeLogActions';
+import auth from '../../auth/authorization'
 
 class TimeLog extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class TimeLog extends Component {
       time: moment().format('hh:mm a'),
       btn_name: 'Clock In',
       btn_class_names: 'bg-teal hover:bg-teal-dark text-white font-bold py-3 px-4 rounded-full text-xl',
-      page: 1,
+      page: 0,
       limit: 10
     }
 
@@ -32,7 +33,9 @@ class TimeLog extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchTimeLogs({page: 0, limit: this.state.limit})
+    if (auth.signedIn()) {
+      this.props.fetchTimeLogs({page: this.state.page, limit: this.state.limit})
+    }
   }
 
   componentWillUnmount() {
@@ -44,16 +47,14 @@ class TimeLog extends Component {
     const { newTimeLog, newTimeLogId, deletedTimeLogId } = nextProps
     if (newTimeLog && newTimeLog.hasOwnProperty('_id')) {
       this.props.timeLogs.unshift(newTimeLog)
-      this.clearState()
     }
 
-    if (newTimeLogId) {
+    if (newTimeLogId && !newTimeLog.hasOwnProperty('_id')) {
       this.changeState(newTimeLogId)
     }
   }
 
   submitNewTime = () => {
-    const self = this
     const { description, time_in, time_out } = this.state
     let data = {
       description: description,
@@ -65,7 +66,6 @@ class TimeLog extends Component {
   }
 
   submitUpdatedTime = () => {
-    const self = this
     const { description, time_in, time_out } = this.state
     let data = {
       description: description,
@@ -73,7 +73,8 @@ class TimeLog extends Component {
       time_out: time_out
     }
 
-    this.props.updateNewTimeLog(this.state._id, data)
+    this.props.updateTimeLog(this.state._id, data)
+    this.clearState()
   }
 
   submitTime = (event) => {
@@ -101,7 +102,7 @@ class TimeLog extends Component {
 
   clearState = () => {
     const newState = { ...this.state }
-    newState._id = null
+    newState._id = ''
     newState.description = ''
     newState.time_out = ''
     newState.time_in = moment().format('x')
@@ -124,8 +125,11 @@ class TimeLog extends Component {
   }
 
   loadMoreTimelogs = () => {
-    const self = this
-    const page = self.state.page || 1
+    const page = this.state.page + 1
+    this.props.fetchTimeLogs({page: page, limit: this.state.limit})
+    const newState = {...this.state}
+    newState.page = page
+    this.setState(newState)
   }
 
   filterUniq = (objList) => {
@@ -150,8 +154,13 @@ class TimeLog extends Component {
         />
 
         <TimeLogLists timeLogs={this.props.timeLogs} />
-        <div className="flex flex-row justify-center">
-        <Button name="Load More" classNames="bg-transparent text-grey font-semibold hover:text-black py-2 px-4 font-2xl"  handleOnClick={ this.loadMoreTimelogs }/>
+        <div className="flex flex-row justify-center my-4">
+          <Button 
+            classNames="bg-transparent text-grey font-semibold hover:text-black py-2 px-4 font-2xl"
+            handleOnClick={ this.loadMoreTimelogs }
+          >
+            Load More
+          </Button>
         </div>
       </div>
     )

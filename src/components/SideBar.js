@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import SignOut from './Forms/SignOut'
+import SignOut from './forms/SignOut'
 
 export default class SideBar extends Component {
   render() {

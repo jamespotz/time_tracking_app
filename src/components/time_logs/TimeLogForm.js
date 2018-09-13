@@ -26,7 +26,7 @@ const TimeLogForm = (props) => (
       </div>
       <span className="text-grey-dark text-2xl mt-3">{props.currentTime}</span>
       <div className="my-1">
-        <SubmitButton name={props.btn_name} classNames={props.btn_class_names} />
+        <SubmitButton classNames={props.btn_class_names} >{props.btn_name}</SubmitButton>
       </div>
     </div>
   </form>
