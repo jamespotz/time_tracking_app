@@ -1,14 +1,13 @@
 import jwt from 'jsonwebtoken'
-
-const token = sessionStorage.getItem('user_token')
+import axios from 'axios'
 
 class Auth {
-  static authHeader() {
-    return `Bearer ${token}`
+  static header() {
+    return `Bearer ${sessionStorage.getItem('user_token')}`
   }
 
   static signedIn() {
-    return !!token
+    return !!sessionStorage.getItem('user_token')
   }
 
   static signOut() {
@@ -16,7 +15,7 @@ class Auth {
   }
 
   static userProfile() {
-    return jwt.decode(token)
+    return jwt.decode(sessionStorage.getItem('user_token'))
   }
 }
 

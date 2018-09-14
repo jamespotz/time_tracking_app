@@ -94,7 +94,7 @@ export default class TimeLogLists extends Component {
     })
 
     return (
-      <div className="flex flex-col mt-4">
+      <div className="flex flex-col mt-32">
         { timeLogsByDate }
       </div>
     )

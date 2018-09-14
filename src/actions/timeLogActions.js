@@ -3,13 +3,16 @@ import swal from 'sweetalert'
 import auth from '../auth/authorization'
 import { FETCH_TIME_LOGS_SUCCESS, FETCH_TIME_LOGS_FAILED, CREATE_TIME_LOG_SUCCESS, CREATE_TIME_LOG_FAILED, UPDATE_TIME_LOG_SUCCESS, UPDATE_TIME_LOG_FAILED, DELETE_TIME_LOG_SUCCESS, DELETE_TIME_LOG_FAILED, FETCH_MORE_TIME_LOGS_SUCCESS, FETCH_MORE_TIME_LOGS_FAILED, UPDATE_TIME_LOG_VALUE, UPDATE_TIME_LOG_VALUE_SUCCESS } from './types';
 
-axios.defaults.headers['Authorization'] = auth.authHeader()
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 export const fetchTimeLogs = (pagination) => dispatch => {
   const { page, limit } = pagination
   axios
-    .get(`/api/time-logs?page=${page}&limit=${limit}`)
+    .get(`/api/time-logs?page=${page}&limit=${limit}`, {
+      headers: {
+        'Authorization': auth.header()
+      }
+    })
     .then(results => {
       if (page <= 0) {
         dispatch({
@@ -40,7 +43,11 @@ export const fetchTimeLogs = (pagination) => dispatch => {
 
 export const createNewTimeLog = (postData) => dispatch => {
   axios
-    .post('/api/time-log', postData)
+    .post('/api/time-log', postData,{
+      headers: {
+        'Authorization': auth.header()
+      }
+    })
     .then(result => {
       dispatch({
         type: CREATE_TIME_LOG_SUCCESS,
@@ -60,7 +67,11 @@ export const updateTimeLog = (id, patchData) => dispatch => {
   axios
     .patch(
       `/api/time-log/${id}`, 
-      patchData)
+      patchData, {
+        headers: {
+          'Authorization': auth.header()
+        }
+      })
     .then(response => {
       dispatch({
         type: UPDATE_TIME_LOG_SUCCESS,
@@ -86,7 +97,11 @@ export const deleteTimeLog = (id) => dispatch => {
   .then(willDelete => {
     if (willDelete) {    
       axios
-        .delete(`/api/time-log/${id}`)
+        .delete(`/api/time-log/${id}`, {
+          headers: {
+            'Authorization': auth.header()
+          }
+        })
         .then(response => {
           dispatch({
             type: DELETE_TIME_LOG_SUCCESS,

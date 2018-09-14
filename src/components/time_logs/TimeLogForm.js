@@ -4,7 +4,7 @@ import moment from 'moment'
 import SubmitButton from '../form_fields/SubmitButton'
 
 const TimeLogForm = (props) => (
-  <form className="shadow py-4 px-2" onSubmit={props.submitForm}>
+  <form className="shadow py-4 px-2 bg-white w-5/6 fixed pin-t" onSubmit={props.submitForm}>
     <input type="hidden"
       name="time_in"
       value={props.time_in} 

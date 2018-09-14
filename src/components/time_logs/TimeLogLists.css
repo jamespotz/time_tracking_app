@@ -16,10 +16,6 @@
   transition: opacity 300ms ease-out;
 }
 
-.timelog-list--item input[type="text"] {
-  padding: 0.5rem;
-}
-
 .timelog-list--item .react-datepicker__input-container input[type="text"] {
   width: 5.5rem;
 }

@@ -30,9 +30,7 @@ class TimeLog extends Component {
     if (!this.timeInterval) {
       this.timeInterval = setInterval(this.currentTime, 1000)
     }
-  }
 
-  componentWillMount() {
     if (auth.signedIn()) {
       this.props.fetchTimeLogs({page: this.state.page, limit: this.state.limit})
     }

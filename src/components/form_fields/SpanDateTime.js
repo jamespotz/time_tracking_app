@@ -12,9 +12,10 @@ const SpanDateTime = (props) => {
       timeFormat="hh:mm a"
       showTimeSelect
       dateFormat="hh:mm a"
+      className="border rounded py-1 px-2 bg-grey-lighter"
     />
   } else {
-    return <span>{props.text}</span> 
+    return <div className="py-2">{props.text}</div> 
   }
 }
 

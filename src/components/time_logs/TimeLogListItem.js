@@ -98,16 +98,16 @@ class TimeLogListItem extends Component {
         </div>
         <div className="w-1/4">
           <small className="text-grey">Time In - Out</small><br/>
-          <div className="flex flex-row">
+          <div className="flex flex-row items-center">
             {
-              <SpanDateTime 
+              <SpanDateTime
                 startDate={time_in}
                 text={this.formatTime(time_in)}
                 isEditing={this.state.isEditing}
                 onChange={(date) => this.handleTimeChange('time_in', date)}
               />
             } <span className="px-1">-</span> {
-              <SpanDateTime 
+              <SpanDateTime
                 startDate={time_out}
                 text={this.formatTime(time_out)}
                 isEditing={this.state.isEditing} 
@@ -118,7 +118,7 @@ class TimeLogListItem extends Component {
         </div>
         <div className="w-1/4">
           <small className="text-grey">Duration</small><br/>
-          { this.getDuration(time_in, time_out) }
+          <div className="py-2">{ this.getDuration(time_in, time_out) }</div>
         </div>
         <div className="flex flex-row">
           <Button 

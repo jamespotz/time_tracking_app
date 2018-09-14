@@ -10,10 +10,11 @@ let axiosConfig = {
 
 export const signIn = (credentials, history) => dispatch => {
   axios.post('/api/sign-in', credentials, axiosConfig).then(response => {
+    sessionStorage.setItem('user_token', response.data.token)
     dispatch({
       type: LOG_IN_SUCCESS
     })
-    sessionStorage.setItem('user_token', response.data.token)
+    history.push('/time-logs')
   }).catch(err => {
     dispatch({
       type: LOG_IN_FAILED,
