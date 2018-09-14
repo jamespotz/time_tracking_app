@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as actions from '../../actions/timeLogActions';
 import auth from '../../auth/authorization'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 
 class TimeLog extends Component {
   constructor() {
@@ -17,8 +19,8 @@ class TimeLog extends Component {
       time_out: '',
       _id: null,
       time: moment().format('hh:mm a'),
-      btn_name: 'Clock In',
-      btn_class_names: 'bg-teal hover:bg-teal-dark text-white font-bold py-3 px-4 rounded-full text-xl',
+      btn_name: <FontAwesomeIcon icon={faPlay} className="ml-1" />,
+      btn_class_names: 'bg-teal hover:bg-teal-dark text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center',
       page: 0,
       limit: 10
     }
@@ -48,6 +50,7 @@ class TimeLog extends Component {
       if (!found) {
         this.props.timeLogs.unshift(newTimeLog)
       }
+      this.clearState()
     }
 
     if (newTimeLogId && !newTimeLog.hasOwnProperty('_id')) {
@@ -75,7 +78,6 @@ class TimeLog extends Component {
     }
 
     this.props.updateTimeLog(this.state._id, data)
-    this.clearState()
   }
 
   submitTime = (event) => {
@@ -94,10 +96,11 @@ class TimeLog extends Component {
   }
 
   changeState = (id) => {
+    console.log(id)
     const newState = { ...this.state }
     newState._id = id
-    newState.btn_name = 'Clock Out'
-    newState.btn_class_names = 'bg-red-dark hover:bg-red-light text-white font-bold py-3 px-4 rounded-full text-xl'
+    newState.btn_name = <FontAwesomeIcon icon={faStop} />
+    newState.btn_class_names = 'bg-red-dark hover:bg-red-light text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center'
     this.setState(newState)
   }
 
@@ -107,8 +110,8 @@ class TimeLog extends Component {
     newState.description = ''
     newState.time_out = ''
     newState.time_in = moment().format('x')
-    newState.btn_name = 'Clock in'
-    newState.btn_class_names = 'bg-teal hover:bg-teal-light text-white font-bold py-3 px-4 rounded-full text-xl'
+    newState.btn_name = <FontAwesomeIcon icon={faPlay} className="ml-1" />
+    newState.btn_class_names = 'bg-teal hover:bg-teal-light text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center'
     this.setState(newState)
   }
 

@@ -13,7 +13,7 @@ const TimeLogForm = (props) => (
       name="time_out"
       value={props.time_out} 
     />
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center">
       <div className="w-4/5">
         <input 
         type="text" 
@@ -24,8 +24,8 @@ const TimeLogForm = (props) => (
         value={props.description} 
         onChange={props.handleChange}/>
       </div>
-      <span className="text-grey-dark text-2xl mt-3">{props.currentTime}</span>
-      <div className="my-1">
+      <span className="text-grey-dark text-2xl">{props.currentTime}</span>
+      <div>
         <SubmitButton classNames={props.btn_class_names} >{props.btn_name}</SubmitButton>
       </div>
     </div>

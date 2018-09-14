@@ -51,7 +51,8 @@ export default function(state = initialState, action) {
     case CREATE_TIME_LOG_SUCCESS:
       return {
         ...state,
-        id: action.payload
+        id: action.payload,
+        item: {}
       }
     case CREATE_TIME_LOG_FAILED:
       return {
