@@ -42,7 +42,7 @@ class SignInForm extends Component {
       errorMessage = <div className="py-2 px-2 text-white bg-red-dark rounded mt-1">{this.props.auth.errorMessage}</div>
     }
     return(
-      <div className="flex w-full h-screen justify-center items-center bg-blue">
+      <div className="flex w-full h-screen justify-center items-center bg-arielles-smile">
         { this.props.auth.isAuthenticated ? <Redirect to="/time-logs" /> : null }
         <div className="w-full max-w-xs">
           <form className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">

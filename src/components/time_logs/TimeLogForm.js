@@ -39,7 +39,7 @@ TimeLogForm.propTypes = {
   time_in: PropTypes.string,
   time_out: PropTypes.string,
   currentTime: PropTypes.string,
-  btn_name: PropTypes.string,
+  btn_name: PropTypes.object,
   btn_class_names: PropTypes.string
 }
 

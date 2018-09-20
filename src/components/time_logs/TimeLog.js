@@ -5,7 +5,7 @@ import TimeLogLists from './TimeLogLists'
 import Button from '../form_fields/Button'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import * as actions from '../../actions/timeLogActions';
+import * as actions from '../../actions/timeLogActions'
 import auth from '../../auth/authorization'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
@@ -20,7 +20,7 @@ class TimeLog extends Component {
       _id: null,
       time: moment().format('hh:mm a'),
       btn_name: <FontAwesomeIcon icon={faPlay} className="ml-1" />,
-      btn_class_names: 'bg-teal hover:bg-teal-dark text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center',
+      btn_class_names: 'bg-arielles-smile text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center',
       page: 0,
       limit: 10
     }
@@ -100,7 +100,7 @@ class TimeLog extends Component {
     const newState = { ...this.state }
     newState._id = id
     newState.btn_name = <FontAwesomeIcon icon={faStop} />
-    newState.btn_class_names = 'bg-red-dark hover:bg-red-light text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center'
+    newState.btn_class_names = 'bg-sugar-lollipop text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center'
     this.setState(newState)
   }
 
@@ -111,7 +111,7 @@ class TimeLog extends Component {
     newState.time_out = ''
     newState.time_in = moment().format('x')
     newState.btn_name = <FontAwesomeIcon icon={faPlay} className="ml-1" />
-    newState.btn_class_names = 'bg-teal hover:bg-teal-light text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center'
+    newState.btn_class_names = 'bg-arielles-smile text-white font-bold rounded-full text-xl flex flex-col w-12 h-12 items-center justify-center'
     this.setState(newState)
   }
 

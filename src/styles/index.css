@@ -13,3 +13,24 @@
 ul {
   padding: 0;
 }
+
+.sidebar {
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+}
+
+/* Gradiant Bg */
+.bg-seashore {
+  background-image: linear-gradient(to top, #209cff 0%, #68e0cf 100%);
+}
+
+.bg-sugar-lollipop {
+  background-image: linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%);
+}
+
+.bg-arielles-smile {
+  background-image: radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%);
+}
+
+.bg-premium-dark {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+}
