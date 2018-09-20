@@ -7,18 +7,16 @@ export default class TextInput extends Component {
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
-    value: PropTypes.string,
     error: PropTypes.string
   }
 
   static defaultProps = {
     type: "text",
     error: '',
-    value: ''
   }
 
   render() {
-    const { name, placeholder, type, value, onChange, label, error } = this.props
+    const { name, placeholder, type, onChange, label, error } = this.props
     let wrapperClass = 'form-group mt-2'
     let inputClass = 'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline'
 

@@ -6,10 +6,6 @@ import moment from 'moment'
 import './TimeLogLists.css'
 
 export default class TimeLogLists extends Component {
-  constructor() {
-    super()
-  }
-
   static propTypes = {
     timeLogs: PropTypes.arrayOf(PropTypes.shape({
       description: PropTypes.string,

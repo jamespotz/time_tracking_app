@@ -10,6 +10,7 @@ class Reports extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      total_duration: 0,
       data: {},
       options:{
         animation: {
@@ -17,22 +18,21 @@ class Reports extends Component {
         },
         tooltips: {
           callbacks: {
-              label: function(tooltipItem, data) {
-                const label = data.labels[tooltipItem.index]
-                const seconds = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] || 0
+            label: function(tooltipItem, data) {
+              const label = data.labels[tooltipItem.index]
+              const seconds = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] || 0
 
-                return `${label} : ${moment.utc(seconds).format('HH:mm:ss')}`
-              }
+              return `${label} : ${moment.utc(seconds).format('HH:mm:ss')}`
+            }
           }
         },
         scales: {
           yAxes: [{
-              ticks: {
-                  // Include a dollar sign in the ticks
-                  callback: function(value, index, values) {
-                      return moment.utc(value).format('HH:mm:ss');
-                  }
-              }
+            ticks: {
+                callback: function(value, index, values) {
+                    return moment.utc(value).format('HH:mm:ss');
+                }
+            }
           }]
         }
       }
@@ -47,6 +47,8 @@ class Reports extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const self = this
+    let total_duration = 0
     const { timeLogs } = nextProps
     const data = {
       datasets:[{
@@ -74,15 +76,20 @@ class Reports extends Component {
                               return a
                             }, {})
 
-    Object.keys(sortedGroupedTimeLogs).map(key => {
-      const duration = sortedGroupedTimeLogs[key].map(t => {
-        return this.getDuration(t.time_in, t.time_out)
-      }).reduce((sum, duration) => { return sum += Number(duration) }, 0)
+    Object.keys(sortedGroupedTimeLogs).forEach(key => {
+      const duration = self.getTotalDuration(sortedGroupedTimeLogs[key])
       data.labels.push(moment(key).format('MMM DD'))
       data.datasets[0].data.push(duration)
+      total_duration += duration
     })
 
-    this.setState({data: data})
+    this.setState({data: data, total_duration: total_duration})
+  }
+
+  getTotalDuration = (items) => {
+    return items.map(t => {
+      return this.getDuration(t.time_in, t.time_out)
+    }).reduce((sum, duration) => { return sum += Number(duration) }, 0)
   }
 
   getDuration = (time_in, time_out) => {
@@ -101,9 +108,20 @@ class Reports extends Component {
 
 
   render() {
+    const time = moment.utc(this.state.total_duration)
     return (
-      <div className="w-1/2 ml-4">
-        <Line data={this.state.data} options={this.state.options} />
+      <div>
+        <div className="ml-4 mt-4">
+          Total :
+          <strong className="ml-2 text-2xl">
+          { time.hours() } h { time.minutes() } min
+          </strong>
+        </div>
+        <div className="ml-4 mt-3">
+          <div className="w-1/2">  
+            <Line data={this.state.data} options={this.state.options} />
+          </div>
+        </div>
       </div>
     )
   }
