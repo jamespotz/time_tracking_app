@@ -1,19 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import DatePicker from 'react-datepicker'
 import moment from 'moment'
-import 'react-datepicker/dist/react-datepicker.css';
+
+import 'flatpickr/dist/themes/airbnb.css'
+import Flatpickr from 'react-flatpickr'
 
 const SpanDateTime = (props) => {
   if (props.isEditing) {
-    return <DatePicker 
-      selected={moment(props.startDate)} 
-      onChange={props.onChange}
-      timeFormat="hh:mm a"
-      showTimeSelect
-      dateFormat="hh:mm a"
-      className="border rounded py-1 px-2 bg-grey-lighter"
-    />
+    return  <div className="date-picker">
+              <Flatpickr data-enable-time
+                  value={moment(props.startDate).toDate()}
+                  onChange={props.onChange}
+                  options={{
+                    dateFormat: "h:i K"
+                  }}
+              />
+            </div>
   } else {
     return <div className="py-2">{props.text}</div> 
   }

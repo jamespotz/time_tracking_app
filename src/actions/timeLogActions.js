@@ -130,3 +130,24 @@ export const updateTimeLogValue = ({id, name, value}) => dispatch => {
     payload: {id: id, name: name, value: value}
   })
 }
+
+export const filterTimeLogs = ({startDate, endDate}) => dispatch => {
+  axios
+    .get(`/api/time-logs/filter?start_date=${startDate}&end_date=${endDate}`, {
+      headers: {
+        'Authorization': auth.header()
+      }
+    })
+    .then(results => {
+      dispatch({
+        type: FETCH_TIME_LOGS_SUCCESS,
+        payload: results.data.timeLogs
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_TIME_LOGS_FAILED,
+        payload: err.response.data.message
+      })
+    })
+}

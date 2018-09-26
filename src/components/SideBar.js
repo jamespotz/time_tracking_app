@@ -11,10 +11,10 @@ export default class SideBar extends Component {
         <nav>
           <ul className="list-reset flex flex-col mt-10">
             <li className="nav-link-items">
-              <NavLink exact to="/time-logs" className={defaultClass} activeClassName="bg-grey-darkest font-bold">Time Log</NavLink>
+              <NavLink exact to="/time-logs" className={defaultClass} activeClassName="font-bold">Time Log</NavLink>
             </li>
             <li className="nav-link-items">
-              <NavLink exact to="/reports" className={defaultClass} activeClassName="bg-grey-darkest font-bold">Report</NavLink>
+              <NavLink exact to="/reports" className={defaultClass} activeClassName="font-bold">Report</NavLink>
             </li>
             <li className="nav-Navlink-items">
               <SignOut className={defaultClass} />

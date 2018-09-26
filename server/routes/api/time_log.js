@@ -1,4 +1,4 @@
-import TimeLogController from '../../controllers/time_log_controller'
+import * as TimeLogController from '../../controllers/time_log_controller'
 import authenticateUser from '../../middleware/authenticate_user'
 
 export default (app) => {
@@ -8,5 +8,7 @@ export default (app) => {
 
   app.post('/api/time-log', authenticateUser, TimeLogController.create)
 
-  app.delete('/api/time-log/:timeLogId', authenticateUser, TimeLogController.delete)
+  app.delete('/api/time-log/:timeLogId', authenticateUser, TimeLogController.deleteTimeLog)
+
+  app.get('/api/time-logs/filter', authenticateUser, TimeLogController.filterTimeLog)
 };

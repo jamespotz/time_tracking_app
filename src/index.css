@@ -6235,7 +6235,8 @@ ul {
 }
 
 .sidebar {
-  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  /* background-image: linear-gradient(180deg, #29323c 0%, #485563 100%); */
+  background-color: #21183c;
 }
 
 /* Gradiant Bg */
@@ -6254,6 +6255,85 @@ ul {
 
 .bg-premium-dark {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
+}
+
+.date-picker input[type="text"] {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  border-width: 1px;
+  border-radius: .25rem;
+  background-color: #f1f5f8;
+  width: 100%;
+}
+
+.date-picker {
+  width: 35%;
+}
+
+.filter-nav {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filter-nav-item {
+  margin-right: 1.5rem;
+  position: relative;
+}
+
+.filter-nav-item--link {
+  color: #b8c2cc;
+  text-decoration: none;
+}
+
+.filter-nav-item--link:hover {
+  color: #8795a1;
+  cursor: pointer;
+}
+
+.filter-nav-item.active a.filter-nav-item--link {
+  color: #21183c;
+  border-bottom-width: 2px;
+  border-color: #21183c;
+  padding-bottom: .25rem;
+}
+
+.filter-nav-item>.flatpickr>.flatpickr-calendar {
+  top: 22px !important;
+  left: -14px !important;
+}
+
+.table {
+  width: 100%;
+}
+
+.table th {
+  border-bottom-width: 2px;
+  border-color: #dae1e7;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: .75rem;
+  text-align: center;
+}
+
+.table td {
+  border-bottom-width: 1px;
+  border-color: #dae1e7;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: .75rem;
+  text-align: center;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f5f8;
 }
 
 @media (min-width: 576px) {

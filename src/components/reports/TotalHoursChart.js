@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import { Line } from 'react-chartjs-2'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import * as actions from '../actions/timeLogActions'
-import auth from '../auth/authorization'
 import moment from 'moment'
 
-class Reports extends Component {
+const ONE_HOUR = 3600 * 1000
+const TWO_HOURS = ONE_HOUR * 2
+const FOUR_HOURS = TWO_HOURS * 2
+
+class TotalHoursChart extends Component {
   constructor(props) {
     super(props)
     this.state = {
       total_duration: 0,
       data: {},
       options:{
+        maintainAspectRatio: false,
         animation: {
           duration: 300,
         },
@@ -22,27 +23,47 @@ class Reports extends Component {
               const label = data.labels[tooltipItem.index]
               const seconds = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] || 0
 
-              return `${label} : ${moment.utc(seconds).format('HH:mm:ss')}`
+              const time = moment.utc(seconds)
+              const hoursDisplay = time.format('HH') !== '00' ? `${time.format('HH')} h` : ''
+              const minutesDisplay = time.format('mm') !== '00' ? `${time.format('mm')} min` : ''
+
+              return `${label} : ${hoursDisplay} ${minutesDisplay} ${time.format('ss')} sec`
             }
+          }
+        },
+        legend: {
+          display: false,
+          labels: {
+            fontColor: '#8795A1',
+            fontSize: 12,
+            usePointStyle: true,
           }
         },
         scales: {
           yAxes: [{
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
             ticks: {
+                fontColor: '#8795A1',
                 callback: function(value, index, values) {
-                    return moment.utc(value).format('HH:mm:ss');
-                }
+                    return `${moment.utc(value).format('HH')} h`
+                },
+                stepSize: ONE_HOUR
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              fontColor: '#8795A1'
             }
           }]
         }
       }
-    }
-  }
-
-
-  componentDidMount() {
-    if (auth.signedIn()) {
-      this.props.fetchTimeLogs({page: 0, limit: 20})
     }
   }
 
@@ -54,8 +75,12 @@ class Reports extends Component {
       datasets:[{
         label: 'Time Log',
         data: [],
-        borderColor: "rgb(75, 192, 192)",
-        backgroundColor: "rgba(75, 192, 192, 0.3)"
+        borderColor: "#00b8ff",
+        backgroundColor: "#00b8ff",
+        lineTension: 0.1,
+        pointBorderWidth: 2,
+        pointBackgroundColor: '#fff',
+        pointRadius: 4
       }],
       labels: []
     }
@@ -97,39 +122,25 @@ class Reports extends Component {
     return isNaN(duration) ? 0 : duration.asMilliseconds()
   }
 
-  getRandomColor = () => {
-    var letters = '0123456789ABCDEF'
-    var color = '#'
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color
-  }
-
-
   render() {
     const time = moment.utc(this.state.total_duration)
-    return (
-      <div>
-        <div className="ml-4 mt-4">
-          Total :
-          <strong className="ml-2 text-2xl">
-          { time.hours() } h { time.minutes() } min
+    return(
+      <div className="py-4 px-16">
+        <div className="bg-white p-8 shadow-md rounded">
+          <strong className="text-2xl flex justify-end items-center">
+            <span className="text-sm text-grey mr-3">Total:</span> 
+            <span className="text-purple-darker">{ time.hours() } h { time.minutes() } min</span>
           </strong>
-        </div>
-        <div className="ml-4 mt-3">
-          <div className="w-1/2">  
-            <Line data={this.state.data} options={this.state.options} />
-          </div>
+          <br />
+          <Line 
+            data={this.state.data}
+            height={250}
+            options={this.state.options} 
+          />
         </div>
       </div>
     )
   }
 }
 
-
-const mapStateToProps = state => ({
-  timeLogs: state.timeLog.items
-})
-
-export default withRouter(connect(mapStateToProps, actions)(Reports))
+export default TotalHoursChart

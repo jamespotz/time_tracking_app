@@ -1,7 +1,8 @@
 import TimeLog from '../models/time_log'
 import getIp from '../operations/get_client_ip'
+import moment from 'moment'
 
-exports.getAll = (req, res, next) => {
+export const getAll = (req, res, next) => {
   const userId = req.currentUser.userId
   const pageOpts = {
     page: req.query.page || 0,
@@ -35,10 +36,15 @@ exports.getAll = (req, res, next) => {
       }
 
       res.status(200).json(response)
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
     })
 }
 
-exports.update = (req, res, next) => {
+export const update = (req, res, next) => {
   const id = req.params.timeLogId
   let ipAddress = getIp(req)
   const updateOps = {}
@@ -67,7 +73,7 @@ exports.update = (req, res, next) => {
     })
 }
 
-exports.create = (req, res, next) => {
+export const create = (req, res, next) => {
   let ipAddress = getIp(req)
   const {
     description,
@@ -98,7 +104,7 @@ exports.create = (req, res, next) => {
   })
 }
 
-exports.delete = (req, res, next) => {
+export const deleteTimeLog = (req, res, next) => {
   const id = req.params.timeLogId
 
   TimeLog.deleteOne({
@@ -118,6 +124,47 @@ exports.delete = (req, res, next) => {
     })
 }
 
+
+export const filterTimeLog = (req, res, next) => {
+  const userId = req.currentUser.userId
+  let startDate = moment().startOf('day')
+  let endDate = moment(startDate).endOf('day')
+  if (req.query.start_date && req.query.end_date) {
+    startDate = moment(req.query.start_date).startOf('day')
+    endDate = moment(req.query.end_date).endOf('day')
+  }
+
+  TimeLog.find({
+    user_id: userId,
+    createdAt: {
+      '$gte': startDate.toDate(),
+      '$lte': endDate.toDate()
+    }
+  }).exec()
+    .then(results => {
+      const response = {
+        count: results.length,
+        timeLogs: results.map(result => {
+          return {
+            description: result.description,
+            _id: result._id,
+            time_in: result.time_in,
+            time_out: result.time_out,
+            createdAt: result.createdAt,
+            updatedAt: result.updatedAt,
+            ip_address: result.ipAddress
+          }
+        })
+      }
+
+      res.status(200).json(response)
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    })
+}
 
 
 
