@@ -9,6 +9,7 @@ class App extends Component {
     return (
       <div>
         <Switch>
+          <Route exact path='/' component={SignInForm} />
           <Route exact path='/sign-in' component={SignInForm} />
           <Route exact path='/sign-up' component={SignUpForm} />
           <Main />

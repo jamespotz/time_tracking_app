@@ -12,16 +12,6 @@ class ReportsTable extends Component {
       page: 0
     }
   }
-  static propTypes = {
-    timeLogs: PropTypes.arrayOf(PropTypes.shape({
-      description: PropTypes.string,
-      time_in: PropTypes.string,
-      time_out: PropTypes.string,
-      createdAt: PropTypes.string,
-      updatedAt: PropTypes.string,
-      _id: PropTypes.string
-    }))
-  }
 
   getDuration = (time_in, time_out) => {
     if (!time_in && !time_out) { return '' }
@@ -52,6 +42,17 @@ class ReportsTable extends Component {
       return null
     }
   }
+}
+
+ReportsTable.propTypes = {
+  timeLogs: PropTypes.arrayOf(PropTypes.shape({
+    description: PropTypes.string,
+    time_in: PropTypes.string,
+    time_out: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    _id: PropTypes.string
+  }))
 }
 
 export default ReportsTable

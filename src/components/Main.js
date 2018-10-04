@@ -1,28 +1,20 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import TimeLog from './time_logs/TimeLog'
 import Reports from './reports/Reports'
-import SideBar from './SideBar'
 import { connect } from 'react-redux'
-import { withRouter, Redirect } from 'react-router-dom'
+import UserRoute from './routes/UserRoute'
+import NoMatch from './error_pages/NoMatch';
 
 class Main extends Component {
   render() {
-    if (this.props.auth.isAuthenticated) {
       return (
-        <div className="container flex h-screen">
-          <SideBar />
-          <div className="w-5/6 overflow-auto flex-grow bg-grey-lightest">
-            <Route exact path='/time-logs' component={TimeLog} />
-            <Route exact path='/reports' component={Reports} />
-          </div>
+        <div>
+          <UserRoute path='/time-logs' component={TimeLog} />
+          <UserRoute path='/reports' component={Reports} />
+          <Route component={NoMatch} />
         </div>
       )
-    } else {
-      return(
-        <Redirect to="/sign-in" />
-      )
-    }
   }
 }
 
