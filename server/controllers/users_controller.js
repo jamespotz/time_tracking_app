@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import generate_token from '../operations/generate_token';
 
 exports.signUpUser = (req, res, next) => {
-  const { first_name, last_name, email, password } = req.body;
+  const { first_name, last_name, email, password, is_admin } = req.body;
 
   ValidateUserParams({
     first_name: first_name,
