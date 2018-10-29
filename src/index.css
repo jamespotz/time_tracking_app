@@ -6241,7 +6241,7 @@ table {
 
 /* Your custom CSS here */
 
-.nav-link-items>a {
+.nav-link-items > a {
   text-decoration: none;
 }
 
@@ -6280,7 +6280,7 @@ ul {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
 }
 
-.date-picker input[type="text"] {
+.date-picker input[type='text'] {
   padding-top: .25rem;
   padding-bottom: .25rem;
   padding-left: .5rem;
@@ -6326,7 +6326,7 @@ ul {
   padding-bottom: .25rem;
 }
 
-.filter-nav-item>.flatpickr>.flatpickr-calendar {
+.filter-nav-item > .flatpickr > .flatpickr-calendar {
   top: 22px !important;
   left: -14px !important;
 }
@@ -6359,6 +6359,152 @@ ul {
 
 .table tbody tr:hover {
   background-color: #f1f5f8;
+}
+
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: none;
+  box-shadow: none;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.ui-sortable .panel-heading {
+  cursor: move;
+}
+
+.panel-inverse > .panel-heading {
+  background: #242a30;
+}
+
+.panel-danger > .panel-heading,
+.panel-info > .panel-heading,
+.panel-inverse > .panel-heading,
+.panel-primary > .panel-heading,
+.panel-success > .panel-heading,
+.panel-warning > .panel-heading {
+  color: #fff;
+}
+
+.panel-heading {
+  padding: 10px 15px;
+  border: none;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.ui-sortable-handle {
+  touch-action: none;
+}
+
+.panel-title {
+  font-size: 12px;
+}
+
+.panel-title,
+.panel-title .pull-right {
+  line-height: 20px;
+}
+
+.panel-title {
+  margin-top: 0;
+}
+
+.panel-title,
+.panel > .list-group,
+.panel > .panel-collapse > .list-group,
+.panel > .tab-content,
+.panel > .table {
+  margin-bottom: 0;
+}
+
+.panel-title,
+.panel-title > .small,
+.panel-title > .small > a,
+.panel-title > a,
+.panel-title > small,
+.panel-title > small > a {
+  color: inherit;
+}
+
+.panel-body {
+  padding: 15px;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.m-b-0 {
+  margin-bottom: 0 !important;
+}
+
+.table {
+  border-color: #e2e7eb;
+  border-radius: 3px;
+}
+
+.table,
+.table.table-inverse {
+  background: 0 0;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.table > caption + thead > tr:first-child > td,
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > td,
+.table > thead:first-child > tr:first-child > th {
+  border-top: 0;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  border-color: #e2e7eb;
+  padding: 10px 15px;
+}
+
+.table thead th,
+.table > thead > tr > th {
+  color: #242a30;
+  font-weight: 600;
+  border-bottom: 1px solid #b6c2c9 !important;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  border-color: #e2e7eb;
+  padding: 10px 15px;
+}
+
+.table td,
+.table th {
+  padding: .75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
 }
 
 @media (min-width: 576px) {
